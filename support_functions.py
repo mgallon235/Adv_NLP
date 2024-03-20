@@ -2,6 +2,16 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+from spacy.matcher import Matcher
+from spacy.matcher import PhraseMatcher
+import spacy
+
+#python -m spacy download en_core_web_sm - Run on Terminal
+nlp = spacy.load("en_core_web_sm")
+
+# Create a new Matcher
+matcher = Matcher(nlp.vocab)
+
 
 ## Class Proportion
 
@@ -12,6 +22,16 @@ def class_prop(label):
     train_class['total'] = train_class['count'].sum()
     train_class['perc'] = train_class['count']/train_class['total']
     print(train_class[['class','count','perc']].round(4))
+
+
+## Function for Based-Rule classifier
+def classify_text(text):
+    doc = nlp(text)
+    matches = matcher(doc)
+    if matches:
+        return matches  # Return the label of the first match
+    else:
+        return "UNKNOWN"  # If no match found
 
 
 ## Plot Metric Results
