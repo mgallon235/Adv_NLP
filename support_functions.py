@@ -77,3 +77,14 @@ class Metrics:
 
         plt.tight_layout()
         plt.show()
+
+
+### DATA EXPLORATION
+        
+def freq_table(df,label):
+    train_class = df[label].value_counts().reset_index()
+    #Rename columns
+    train_class.columns = ['category', 'count']
+    train_class['total'] = train_class['count'].sum()
+    train_class['perc'] = train_class['count']/train_class['total']
+    return train_class[['category','count','perc']].round(4)
